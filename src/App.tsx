@@ -1,11 +1,14 @@
-import {Map} from "./components/Map.tsx";
 
+import {MainActivity} from "./components/MainActivity/MainActivity.tsx";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+
+const queryClient = new QueryClient()
 function App() {
 
     return (
-        <>
-            <Map/>
-        </>
+        <QueryClientProvider client={queryClient}>
+            <MainActivity/>
+        </QueryClientProvider>
     )
 }
 
