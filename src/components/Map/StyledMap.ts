@@ -28,14 +28,21 @@ export const ParameterText = styled.div`
   font-size: 14px;
   
 `
-
-export const ColoredText = styled.h3<{color: string}>`
+export const BlackText = styled.p`
+  color: black;
+  font-weight: bold;
+  font-size: 16px;
+`
+export const ColoredText = styled.p<{color: string}>`
   color: ${props => props.color};
   -webkit-text-stroke: 1px black;
+  font-weight: bold;
+  font-size: 16px;
 `
 export const TextContainer = styled.div`
-display: flex;
+  display: flex;
   flex-direction: row;
+  gap: 10px;
 `
 export const StatusAndTextContainer = styled.div`
   display: flex;

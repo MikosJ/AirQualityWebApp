@@ -1,6 +1,7 @@
 import 'leaflet/dist/leaflet.css'
 import {CircleMarker, MapContainer, Popup, TileLayer} from 'react-leaflet'
 import {
+    BlackText,
     ColoredText,
     LocalizationText,
     ParameterText,
@@ -16,8 +17,8 @@ import {joinIndexWithStation} from "../../util/JoinIndexWithData.ts";
 
 
 export const Map = () => {
-    const position: [number, number] = [50.912475, 15.31219]; // [latitude, longitude]
-    const zoomLevel = 15;
+    const position: [number, number] = [52.114503, 19.423561]; // [latitude, longitude]
+    const zoomLevel = 9;
     const {data} = useQuery({queryKey: ['data'], queryFn: useAQData})
     const {data: indexData} = useQuery({queryKey: ['indexData'], queryFn: useAQIndex})
     const merged = joinIndexWithStation(indexData, data)
@@ -71,11 +72,15 @@ export const Map = () => {
                                                         ))}
                                                     </ParameterTextContainer>
                                                 </TextContainer>
-                                                Stan:
+                                                <TextContainer>
+                                                <BlackText>
+                                                    Indeks jakości powietrza:
+                                                </BlackText>
                                                 <ColoredText
                                                     color={airQualityColorScale[station.index?.indexLevel.id !== undefined ? station.index?.indexLevel.id : 6]}>
-                                                    {station.index?.indexLevel.name !== undefined ? station.index?.indexLevel.name : "Brak indeksu"}
+                                                    {station.index?.indexLevel.name !== undefined ? station.index?.indexLevel.name.toLowerCase() : "brak danych"}
                                                 </ColoredText>
+                                                </TextContainer>
                                             </StatusAndTextContainer>
                                         </PopupContent>
                                     </Popup>
