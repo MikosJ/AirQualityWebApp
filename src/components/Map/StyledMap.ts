@@ -35,7 +35,7 @@ export const BlackText = styled.p`
 `
 export const ColoredText = styled.p<{color: string}>`
   color: ${props => props.color};
-  -webkit-text-stroke: 1px black;
+  -webkit-text-stroke: 0.7px gray;
   font-weight: bold;
   font-size: 16px;
 `

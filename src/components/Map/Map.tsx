@@ -14,6 +14,7 @@ import {useAQData} from "../../api/useAQData.ts";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import {useAQIndex} from "../../api/useAQIndex.ts";
 import {joinIndexWithStation} from "../../util/JoinIndexWithData.ts";
+import {SideBar} from "./SideBar.tsx";
 
 
 export const Map = () => {
@@ -57,7 +58,7 @@ export const Map = () => {
                                     weight={1}
                                 >
                                     <Popup>
-                                        <PopupContent>
+                                        <PopupContent style={{'width':301}}>
                                             <StatusAndTextContainer>
                                                 <TextContainer>
                                                     <LocalizationText>
@@ -90,6 +91,7 @@ export const Map = () => {
                     )}
                 </MarkerClusterGroup>
             </MapContainer>
+            <SideBar/>
         </StyledMap>
     )
 }
