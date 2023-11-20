@@ -1,15 +1,35 @@
 import 'leaflet/dist/leaflet.css'
 import {CircleMarker, MapContainer, Popup, TileLayer} from 'react-leaflet'
-import {LocalizationText, ParameterText, ParameterTextContainer, PopupContent, StyledMap} from "./StyledMap.ts";
+import {
+    ColoredText,
+    LocalizationText,
+    ParameterText,
+    ParameterTextContainer,
+    PopupContent, StatusAndTextContainer,
+    StyledMap, TextContainer
+} from "./StyledMap.ts";
 import {useQuery} from "@tanstack/react-query";
 import {useAQData} from "../../api/useAQData.ts";
 import MarkerClusterGroup from "react-leaflet-cluster";
+import {useAQIndex} from "../../api/useAQIndex.ts";
+import {joinIndexWithStation} from "../../util/JoinIndexWithData.ts";
 
 
 export const Map = () => {
     const position: [number, number] = [50.912475, 15.31219]; // [latitude, longitude]
     const zoomLevel = 15;
     const {data} = useQuery({queryKey: ['data'], queryFn: useAQData})
+    const {data: indexData} = useQuery({queryKey: ['indexData'], queryFn: useAQIndex})
+    const merged = joinIndexWithStation(indexData, data)
+    const airQualityColorScale: ColorScale = {
+        0: '#00FF00',
+        1: '#FFFF00',
+        2: '#FFA500',
+        3: '#FF4500',
+        4: '#800080',
+        5: '#4B0082',
+        6: 'rgba(86,86,86,0.48)'
+    };
     return (
         <StyledMap>
             <MapContainer
@@ -23,31 +43,40 @@ export const Map = () => {
                     url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
                 />
                 <MarkerClusterGroup removeOutsideVisibleBounds={false} polygonOptions={{fill: 0, stroke: false}}>
-                    {data && data.map((voivodeship: VoivodeshipData) =>
-                        voivodeship.cities.map((city: CityData) =>
-                            city.stations.map((station: Station) => (
+                    {merged && merged.map((voivodeship: VoivodeshipData) =>
+                        voivodeship.cities.map((city: MergedCity) =>
+                            city.stations.map((station: MergedStation) => (
                                 <CircleMarker
                                     key={`${city.city}-${station.name}`}
                                     center={[station.latitude, station.longitude]}
                                     color="#000000"
-                                    fillColor="#FDD876"
+                                    fillColor={airQualityColorScale[station.index?.indexLevel.id !== undefined ? station.index?.indexLevel.id : 6]}
                                     stroke={true}
-                                    fillOpacity={0.5}
+                                    fillOpacity={0.8}
                                     weight={1}
                                 >
                                     <Popup>
                                         <PopupContent>
-                                            <LocalizationText>
-                                                Miasto: {city.city} <br/> Stacja: {station.name}
-                                            </LocalizationText>
-                                            <ParameterTextContainer>
-                                                {station.parameter.map(parameter => (
-                                                    <ParameterText>
-                                                        {parameter.formula +": " + parameter.values[0].value}
-                                                    </ParameterText>
+                                            <StatusAndTextContainer>
+                                                <TextContainer>
+                                                    <LocalizationText>
+                                                        Miasto: {city.city} <br/> Stacja: {station.name}
+                                                    </LocalizationText>
+                                                    <ParameterTextContainer>
+                                                        {station.parameter.map(parameter => (
+                                                            <ParameterText>
+                                                                {parameter.formula + ": " + parameter.values[0].value}
+                                                            </ParameterText>
 
-                                                ))}
-                                            </ParameterTextContainer>
+                                                        ))}
+                                                    </ParameterTextContainer>
+                                                </TextContainer>
+                                                Stan:
+                                                <ColoredText
+                                                    color={airQualityColorScale[station.index?.indexLevel.id !== undefined ? station.index?.indexLevel.id : 6]}>
+                                                    {station.index?.indexLevel.name !== undefined ? station.index?.indexLevel.name : "Brak indeksu"}
+                                                </ColoredText>
+                                            </StatusAndTextContainer>
                                         </PopupContent>
                                     </Popup>
                                 </CircleMarker>

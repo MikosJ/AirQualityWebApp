@@ -12,6 +12,7 @@ type Parameter = {
 type Station = {
     latitude: number;
     longitude: number;
+    id: number;
     name: string;
     parameter: Parameter[];
 };
@@ -27,3 +28,45 @@ type VoivodeshipData = {
 };
 
 type ApiResponse = VoivodeshipData[];
+
+type IndexApiResponse =IndexData[];
+
+type IndexData = {
+    stationId: number,
+    date: string,
+    indexLevel: IndexLevel
+}
+type IndexLevel = {
+    id:number,
+    name:string
+}
+type ColorScale = {
+    [key: number]: string;
+};
+
+type MergedIndexData = {
+    stationId: number;
+    date: string;
+    indexLevel: IndexLevel;
+};
+
+type MergedStation = {
+    latitude: number;
+    longitude: number;
+    id: number;
+    name: string;
+    parameter: Parameter[];
+    index?: MergedIndexData | null;
+};
+
+type MergedCity = {
+    city: string;
+    stations: MergedStation[];
+};
+
+type MergedVoivodeship = {
+    voivodeship: string;
+    cities: MergedCity[];
+};
+
+type MergedData = MergedVoivodeship[];
