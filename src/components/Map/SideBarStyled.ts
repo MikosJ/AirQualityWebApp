@@ -29,8 +29,8 @@ export const Button = styled.button`
   background-color: hsl(111, 33%, 68%);
   border: 1px solid hsl(111, 33%, 68%);
   white-space: normal;
-  width: 50%;
-  color: hsla(0, 0%, 5%, 0.69);
+  width: 65%;
+  color: hsla(0, 0%, 5%, 0.79);
   font-weight: bold;
   cursor: pointer;
   outline: none;

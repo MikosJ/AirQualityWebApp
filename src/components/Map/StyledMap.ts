@@ -33,11 +33,6 @@ export const StyledPop = styled(Popup)`
   }
 `;
 
-// export const PopupContent = styled.div`
-//   display: flow;
-//   align-items: center;
-//   justify-content: space-between;
-// `
 
 export const LocalizationText = styled.p`
   font-weight: bold;
@@ -62,8 +57,7 @@ export const BlackText = styled.p`
 export const ColoredText = styled.div<{color: string}>`
   color: ${props => props.color};
   display: flex;
-  -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.72);
-  font-weight: bold;
+  //-webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.72);
   font-size: 16px;
   justify-content: center;
   align-items: center;
@@ -73,10 +67,4 @@ export const TextContainer = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 10px;
-`
-export const StatusAndTextContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 `
