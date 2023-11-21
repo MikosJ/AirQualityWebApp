@@ -18,9 +18,10 @@ import React from "react";
 
 interface MapProps {
     openModal: () => void;
+    openAvgModal:() => void;
 }
 
-export const Map: React.FC<MapProps> = ({openModal}) => {
+export const Map: React.FC<MapProps> = ({openModal, openAvgModal}) => {
     const position: [number, number] = [52.114503, 19.423561]; // [latitude, longitude]
     const zoomLevel = 9;
     const {data} = useQuery({queryKey: ['data'], queryFn: useAQData})
@@ -105,7 +106,7 @@ export const Map: React.FC<MapProps> = ({openModal}) => {
                     )}
                 </MarkerClusterGroup>
             </MapContainer>
-            <SideBar openModal={openModal}/>
+            <SideBar openModal={openModal} openAvgModal = {openAvgModal}/>
         </StyledMap>
     )
 }

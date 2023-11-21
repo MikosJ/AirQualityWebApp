@@ -76,3 +76,9 @@ type StationCompressed = {
     id: number;
     city: string;
 }
+type VoivodeshipAverageData = {
+    value: number;
+    parameterFormula: string;
+    parameterName: string;
+    voivodeship: string;
+}

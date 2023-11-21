@@ -3,8 +3,9 @@ import React from "react";
 
 interface SideBarProps {
     openModal: () => void;
+    openAvgModal: () => void;
 }
-export const SideBar: React.FC<SideBarProps> = ({ openModal }) => {
+export const SideBar: React.FC<SideBarProps> = ({ openModal, openAvgModal }) => {
     return (
         <SideBarContainer>
             <TitleContainer>
@@ -15,7 +16,7 @@ export const SideBar: React.FC<SideBarProps> = ({ openModal }) => {
             </TitleContainer>
             <ButtonContainer>
                 <Button onClick={openModal}>Wykres</Button>
-                <Button onClick={() => console.log("działa")}>Średnie dla województw</Button>
+                <Button onClick={openAvgModal}>Średnie dla województw</Button>
             </ButtonContainer>
         </SideBarContainer>
     );
