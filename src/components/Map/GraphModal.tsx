@@ -16,10 +16,6 @@ export const GraphModal: React.FC<GraphModalProps> = ({isOpen, onRequestClose}) 
     //     inputData.map(it => it.cities.map(it => it.stations.map(it => it.parameter.map(it=>it.values.map(it=>it.value)))))
     // };
 
-    const data2 = [{name: 'Page A', uv: 400, pv: 2400, amt: 2400}];
-    console.log(data)
-    console.log(stations);
-
     return (
 
             <ReactModal isOpen={isOpen} onRequestClose={onRequestClose} style={{
@@ -50,13 +46,13 @@ export const GraphModal: React.FC<GraphModalProps> = ({isOpen, onRequestClose}) 
                     alignItems: 'center',
                 }}} ariaHideApp={false}>
                 <div>
-                    <BarChart width={900} height={600} data={data2}>
-                        <XAxis dataKey="name"/>
-                        <YAxis/>
-                        <CartesianGrid/>
-                        <Line type="monotone" dataKey="uv" stroke="#8884d8"/>
-                        <Line type="monotone" dataKey="pv" stroke="#82ca9d"/>
-                    </BarChart>
+                    {/*<BarChart width={900} height={600} data={}>*/}
+                    {/*    <XAxis dataKey="name"/>*/}
+                    {/*    <YAxis/>*/}
+                    {/*    <CartesianGrid/>*/}
+                    {/*    <Line type="monotone" dataKey="uv" stroke="#8884d8"/>*/}
+                    {/*    <Line type="monotone" dataKey="pv" stroke="#82ca9d"/>*/}
+                    {/*</BarChart>*/}
                 </div>
             </ReactModal>
 

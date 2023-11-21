@@ -1,9 +1,17 @@
 import ReactModal from "react-modal"
 import {useQuery} from "@tanstack/react-query";
-import {useAverageValues} from "../../api/useAverageValues.ts";
+import {useAverageValuesSince} from "../../api/useAverageValues.ts";
 import Select, {SingleValue} from "react-select";
-import {useState} from "react";
-import {AverageDataContainer, SelectContainer, ValuesContainer, ValueText} from "./ModalStyled.ts";
+import {ChangeEvent, useMemo, useState} from "react";
+import {
+    AverageDataContainer, BoldText,
+    SelectContainer, StyledInput,
+    Table, TableData,
+    TableHeader,
+    TableRow, TextAndSelect,
+    ValuesContainer,
+    ValueText
+} from "./ModalStyled.ts";
 import {capitalizeFirstLetter} from "../../util/Capitalize.ts";
 
 interface AvgModalProps {
@@ -17,14 +25,16 @@ interface VoivodeshipOption {
 }
 
 export const AverageValuesModal: React.FC<AvgModalProps> = ({isOpen, onRequestClose}) => {
-    const {data} = useQuery({queryKey: ['average'], queryFn: useAverageValues})
-    console.log(data)
+
 
     const [selectedOption, setSelectedOption] = useState<VoivodeshipOption>({
         voivodeship: "MAŁOPOLSKIE",
         label: "Małopolskie",
     });
 
+    const [interval, setInterval] = useState<string>('6');
+    const {data} = useQuery({queryKey: ['average', interval], queryFn: useAverageValuesSince})
+    const memoizedData = useMemo(()=>data,[data])
     const handleSelectChange = (
         newValue: SingleValue<VoivodeshipOption>,
     ) => {
@@ -52,6 +62,10 @@ export const AverageValuesModal: React.FC<AvgModalProps> = ({isOpen, onRequestCl
         {voivodeship: "WIELKOPOLSKIE", label: "Wielkopolskie"},
         {voivodeship: "ZACHODNIOPOMORSKIE", label: "Zachodniopomorskie"},
         {voivodeship: "ŁÓDZKIE", label: "Łódzkie"}]
+
+    const handleInputChange = (event:ChangeEvent<HTMLInputElement>) => {
+        setInterval(event.target.value);
+    };
 
     return (
         <ReactModal isOpen={isOpen} onRequestClose={onRequestClose} style={{
@@ -82,22 +96,61 @@ export const AverageValuesModal: React.FC<AvgModalProps> = ({isOpen, onRequestCl
                 alignItems: 'center',
             }
         }} ariaHideApp={false}>
+
+            {/*<ValueText>*/}
+            {/*    Średnie wartości dla {selectedOption.label} z ostatnich x godzin:*/}
+            {/*</ValueText>*/}
+            {/*<ValuesContainer>*/}
+            {/*    {data?.filter(it => it.voivodeship === "DOLNOŚLĄSKIE").map(it =>*/}
+            {/*        <ValueText>{capitalizeFirstLetter(it.parameterName)+": " + it.value.toFixed(2)+ "µg/m3"}</ValueText>*/}
+            {/*    )}*/}
+            {/*</ValuesContainer>*/}
+
+
             <AverageDataContainer>
-                <ValueText>
-                    Średnie wartości dla {selectedOption.label} z ostatnich x godzin:
-                </ValueText>
                 <ValuesContainer>
-                    {data?.filter(it => it.voivodeship === "DOLNOŚLĄSKIE").map(it =>
-                        <ValueText>{capitalizeFirstLetter(it.parameterName)+": " + it.value.toFixed(2)+ "µg/m3"}</ValueText>
-                    )}
+                    <ValueText>Średnie wartości parametrów dla {selectedOption.label} z ostatnich {interval} godzin:</ValueText>
+                    <Table>
+                        <thead>
+                        <tr>
+                            <TableHeader>Parametr</TableHeader>
+                            <TableHeader>Wartość</TableHeader>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {memoizedData
+                            ?.filter((it: { voivodeship: string; }) => it.voivodeship === selectedOption.voivodeship)
+                            .map((it: { parameterName: string; value: number; }) => (
+                                <TableRow key={it.parameterName}>
+                                    <TableData>
+                                        <BoldText>{capitalizeFirstLetter(it.parameterName)}</BoldText>
+                                    </TableData>
+                                    <TableData>{it.value.toFixed(2)} µg/m³</TableData>
+                                </TableRow>
+                            ))}
+                        </tbody>
+                    </Table>
                 </ValuesContainer>
                 <SelectContainer>
-                    <Select
-                        value={selectedOption}
-                        onChange={handleSelectChange}
-                        options={voivodeships}
-                        getOptionValue={(option) => option.voivodeship}
-                    />
+                    <TextAndSelect>
+                        <BoldText>
+                            Województwo:
+                        </BoldText>
+                        <Select
+                            value={selectedOption}
+                            onChange={handleSelectChange}
+                            options={voivodeships}
+                            getOptionValue={(option) => option.voivodeship}
+                            menuShouldScrollIntoView={true}
+                            menuPosition={"fixed"}
+                        />
+                    </TextAndSelect>
+                    <TextAndSelect>
+                        <BoldText>
+                            Średnia z ostatnich godzin:
+                        </BoldText>
+                        <StyledInput value={interval.valueOf()} onInput={handleInputChange} type={"number"} min={0} max={8640}></StyledInput>
+                    </TextAndSelect>
                 </SelectContainer>
             </AverageDataContainer>
         </ReactModal>

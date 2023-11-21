@@ -1,11 +1,7 @@
-export const useAverageValues = async () => {
-    const url = 'http://localhost:8080/time/5/average';
-    const response = await fetch(url);
+import axios from "axios";
 
-    if (!response.ok) {
-        throw new Error('Failed to fetch the data')
-    }
-
-    const data: VoivodeshipAverageData[] = await response.json();
-    return data;
+export const useAverageValuesSince = async ({ queryKey }) => {
+    const [_, interval] = queryKey
+    const { data } = await axios.get(`http://localhost:8080/time/${interval}/average`)
+    return data
 }
