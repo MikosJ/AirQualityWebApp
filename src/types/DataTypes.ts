@@ -70,3 +70,9 @@ type MergedVoivodeship = {
 };
 
 type MergedData = MergedVoivodeship[];
+
+type StationCompressed = {
+    name: string;
+    id: number;
+    city: string;
+}

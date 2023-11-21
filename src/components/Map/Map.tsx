@@ -14,9 +14,13 @@ import MarkerClusterGroup from "react-leaflet-cluster";
 import {useAQIndex} from "../../api/useAQIndex.ts";
 import {joinIndexWithStation} from "../../util/JoinIndexWithData.ts";
 import {SideBar} from "./SideBar.tsx";
+import React from "react";
 
+interface MapProps {
+    openModal: () => void;
+}
 
-export const Map = () => {
+export const Map: React.FC<MapProps> = ({openModal}) => {
     const position: [number, number] = [52.114503, 19.423561]; // [latitude, longitude]
     const zoomLevel = 9;
     const {data} = useQuery({queryKey: ['data'], queryFn: useAQData})
@@ -31,6 +35,20 @@ export const Map = () => {
         5: '#4B0082',
         6: 'rgba(86,86,86,0.48)'
     };
+    const mappedData = data?.map(voivodeship => ({
+        name: voivodeship.voivodeship,
+        uv: voivodeship.cities.reduce((total, city) => {
+            return total + city.stations.reduce((cityTotal, station) => {
+                return cityTotal + station.parameter.reduce((stationTotal, parameter) => {
+                    return stationTotal + parameter.values.reduce((valueTotal, value) => valueTotal + value.value, 0);
+                }, 0);
+            }, 0);
+        }, 0),
+        pv: 0, // You can set this value based on your requirements
+        amt: 0, // You can set this value based on your requirements
+    }));
+
+    console.log(mappedData);
     return (
         <StyledMap>
             <MapContainer
@@ -87,7 +105,7 @@ export const Map = () => {
                     )}
                 </MarkerClusterGroup>
             </MapContainer>
-            <SideBar/>
+            <SideBar openModal={openModal}/>
         </StyledMap>
     )
 }

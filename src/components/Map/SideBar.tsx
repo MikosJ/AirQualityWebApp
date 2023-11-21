@@ -1,20 +1,22 @@
-import {Button, ButtonContainer, SideBarContainer, SideBarTitle, TitleContainer} from "./SideBarStyled.ts";
+import { Button, ButtonContainer, SideBarContainer, SideBarTitle, TitleContainer } from "./SideBarStyled.ts";
+import React from "react";
 
-export const SideBar = () => {
-
+interface SideBarProps {
+    openModal: () => void;
+}
+export const SideBar: React.FC<SideBarProps> = ({ openModal }) => {
     return (
         <SideBarContainer>
             <TitleContainer>
-                <img src={"src/icon.svg"} alt={"LOGO"} height={"80px"}/>
+                <img src={"src/icon.svg"} alt={"LOGO"} height={"80px"} />
                 <SideBarTitle>
                     AirGI
                 </SideBarTitle>
             </TitleContainer>
             <ButtonContainer>
-                <Button onClick={()=>console.log("działa")}>Wykres</Button>
-                <Button onClick={()=>console.log("działa")}>Średnie dla województw</Button>
+                <Button onClick={openModal}>Wykres</Button>
+                <Button onClick={() => console.log("działa")}>Średnie dla województw</Button>
             </ButtonContainer>
-
         </SideBarContainer>
-    )
-}
+    );
+};

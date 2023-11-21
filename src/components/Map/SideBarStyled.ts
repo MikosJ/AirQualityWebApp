@@ -6,10 +6,8 @@ export const SideBarContainer = styled.div`
   flex-direction: column;
   width: 6%;
   height: 100vh;
-  //background: linear-gradient(45deg, rgba(255, 255, 255, 0.9) 0%, rgba(89, 189, 243, 0.9) 30%, rgba(154, 199, 255, 0.9) 70%, rgba(255, 255, 255, 0.9) 100%);
   background-color: rgb(188, 216, 176);
   min-width: fit-content;
-  //border-radius: 50px 0 0 50px;
 `
 
 export const TitleContainer = styled.div`
@@ -63,26 +61,9 @@ export const Button = styled.button`
   }
 `
 
-export const ColoredButton = styled(Button)`
- text-decoration: none;
- background-color: hsla(189, 85%, 28%, 1);
- box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.0125),
-  0 1px 1px rgba(0, 0, 0, 0.05);
- border-bottom-width: 0.5rem;
-
- &:hover {
-  background-color: hsla(189, 85%, 32%, 1);
- }
-
- &:active {
-  border-bottom-width: 0.1rem;
-  border-top-width: 0.5rem;
- }
-`
-
 export const ButtonContainer = styled.div`
-display: flex;
-flex-direction: column;
-justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
 `
