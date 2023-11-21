@@ -1,13 +1,12 @@
 import 'leaflet/dist/leaflet.css'
-import {CircleMarker, MapContainer, Popup, TileLayer} from 'react-leaflet'
+import {CircleMarker, MapContainer, TileLayer} from 'react-leaflet'
 import {
     BlackText,
     ColoredText,
     LocalizationText,
     ParameterText,
     ParameterTextContainer,
-    PopupContent, StatusAndTextContainer,
-    StyledMap, TextContainer
+    StyledMap, StyledPop, TextContainer
 } from "./StyledMap.ts";
 import {useQuery} from "@tanstack/react-query";
 import {useAQData} from "../../api/useAQData.ts";
@@ -57,34 +56,31 @@ export const Map = () => {
                                     fillOpacity={0.8}
                                     weight={1}
                                 >
-                                    <Popup>
-                                        <PopupContent style={{'width':301}}>
-                                            <StatusAndTextContainer>
-                                                <TextContainer>
-                                                    <LocalizationText>
-                                                        Miasto: {city.city} <br/> Stacja: {station.name}
-                                                    </LocalizationText>
-                                                    <ParameterTextContainer>
-                                                        {station.parameter.map(parameter => (
-                                                            <ParameterText>
-                                                                {parameter.formula + ": " + parameter.values[0].value}
-                                                            </ParameterText>
+                                    <StyledPop>
+                                    <LocalizationText>
+                                        Miasto: {city.city} <br/> Stacja: {station.name}
+                                    </LocalizationText>
+                                        <ParameterTextContainer>
 
-                                                        ))}
-                                                    </ParameterTextContainer>
-                                                </TextContainer>
-                                                <TextContainer>
-                                                <BlackText>
-                                                    Indeks jakości powietrza:
-                                                </BlackText>
-                                                <ColoredText
-                                                    color={airQualityColorScale[station.index?.indexLevel.id !== undefined ? station.index?.indexLevel.id : 6]}>
-                                                    {station.index?.indexLevel.name !== undefined ? station.index?.indexLevel.name.toLowerCase() : "brak danych"}
-                                                </ColoredText>
-                                                </TextContainer>
-                                            </StatusAndTextContainer>
-                                        </PopupContent>
-                                    </Popup>
+
+                                        {station.parameter.map(parameter => (
+                                            <ParameterText>
+                                                {parameter.formula + ": " + parameter.values[0].value + " µg/m3"}
+                                            </ParameterText>
+
+                                        ))}
+                                        </ParameterTextContainer>
+                                        <TextContainer>
+                                            <BlackText>
+                                                Indeks jakości powietrza:
+                                            </BlackText>
+
+                                            <ColoredText
+                                                color={airQualityColorScale[station.index?.indexLevel.id !== undefined ? station.index?.indexLevel.id : 6]}>
+                                                {station.index?.indexLevel.name !== undefined ? station.index?.indexLevel.name.toLowerCase() : "brak danych"}
+                                            </ColoredText>
+                                        </TextContainer>
+                                    </StyledPop>
                                 </CircleMarker>
                             ))
                         )

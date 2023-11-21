@@ -5,6 +5,7 @@ export const SideBar = () => {
     return (
         <SideBarContainer>
             <TitleContainer>
+                <img src={"src/icon.svg"} alt={"LOGO"} height={"80px"}/>
                 <SideBarTitle>
                     AirGI
                 </SideBarTitle>
@@ -13,6 +14,7 @@ export const SideBar = () => {
                 <Button onClick={()=>console.log("działa")}>Wykres</Button>
                 <Button onClick={()=>console.log("działa")}>Średnie dla województw</Button>
             </ButtonContainer>
+
         </SideBarContainer>
     )
 }

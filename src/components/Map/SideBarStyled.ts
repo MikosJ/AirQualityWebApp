@@ -6,26 +6,32 @@ export const SideBarContainer = styled.div`
   flex-direction: column;
   width: 6%;
   height: 100vh;
-  background: linear-gradient(to bottom, rgba(186, 253, 232, 0.5), #94f694, #c5fde9);
+  //background: linear-gradient(45deg, rgba(255, 255, 255, 0.9) 0%, rgba(89, 189, 243, 0.9) 30%, rgba(154, 199, 255, 0.9) 70%, rgba(255, 255, 255, 0.9) 100%);
+  background-color: rgb(188, 216, 176);
   min-width: fit-content;
+  //border-radius: 50px 0 0 50px;
 `
 
 export const TitleContainer = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
 `
 
 export const SideBarTitle = styled.h2`
   padding-top: 1rem;
-  text-shadow: #01ab34 2px 2px;
+  text-shadow: #a4a4a4 2px 2px 5px;
+  font-size: 32px;
 
 `
 export const Button = styled.button`
-  background-color: hsl(165, 76%, 31%);
-  border: 1px solid hsl(146, 58%, 92%);
+  background-color: hsl(111, 33%, 68%);
+  border: 1px solid hsl(111, 33%, 68%);
   white-space: normal;
   width: 50%;
-  color: hsla(150, 14%, 97%, 1);
+  color: hsla(0, 0%, 5%, 0.69);
+  font-weight: bold;
   cursor: pointer;
   outline: none;
   font-size: 16px;
@@ -42,12 +48,12 @@ export const Button = styled.button`
   }
 
   &:hover {
-    background-color: hsl(164, 35%, 70%);
+    background-color: hsl(91, 57%, 84%);
     transform: translateY(-3px)
   }
 
   &:active {
-    background-color: hsl(194, 61%, 62%);
+    background-color: hsl(113, 33%, 64%);
   }
 
   @media screen and (max-width: 45em) {
