@@ -36,20 +36,7 @@ export const Map: React.FC<MapProps> = ({openModal, openAvgModal}) => {
         5: '#4B0082',
         6: 'rgba(86,86,86,0.48)'
     };
-    const mappedData = data?.map(voivodeship => ({
-        name: voivodeship.voivodeship,
-        uv: voivodeship.cities.reduce((total, city) => {
-            return total + city.stations.reduce((cityTotal, station) => {
-                return cityTotal + station.parameter.reduce((stationTotal, parameter) => {
-                    return stationTotal + parameter.values.reduce((valueTotal, value) => valueTotal + value.value, 0);
-                }, 0);
-            }, 0);
-        }, 0),
-        pv: 0, // You can set this value based on your requirements
-        amt: 0, // You can set this value based on your requirements
-    }));
 
-    console.log(mappedData);
     return (
         <StyledMap>
             <MapContainer

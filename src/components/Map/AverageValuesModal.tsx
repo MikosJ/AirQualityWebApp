@@ -84,7 +84,7 @@ export const AverageValuesModal: React.FC<AvgModalProps> = ({isOpen, onRequestCl
             content: {
                 display: 'flex',
                 background: 'white',
-                width: '30vw',
+                width: 'fit-content',
                 height: '60vh',
                 maxWidth: 'calc(100vw - 2rem)',
                 maxHeight: 'calc(100vh - 2rem)',
