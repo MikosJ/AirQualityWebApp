@@ -16,9 +16,13 @@ interface VoivodeshipOption {
     label: string;
 }
 
+interface ParameterOption {
+    formula: string;
+    label: string;
+}
+
 export const GraphModal: React.FC<GraphModalProps> = ({isOpen, onRequestClose}) => {
     const {data:graphData} = useQuery({queryKey:['graphData'],queryFn:useVoivodeshipValuesByHour})
-    console.log(graphData);
     const [selectedOption, setSelectedOption] = useState<VoivodeshipOption>({
         voivodeship: "MAŁOPOLSKIE",
         label: "Małopolskie",
@@ -28,6 +32,17 @@ export const GraphModal: React.FC<GraphModalProps> = ({isOpen, onRequestClose}) 
     ) => {
         if (newValue && 'voivodeship' in newValue) {
             setSelectedOption(newValue);
+        }
+    };
+    const [selectedParameter, setSelectedParameterOption] = useState<ParameterOption>({
+        formula: "CO",
+        label: "CO",
+    });
+    const handleSelectParameterChange = (
+        newValue: SingleValue<ParameterOption>,
+    ) => {
+        if (newValue && 'formula' in newValue) {
+            setSelectedParameterOption(newValue);
         }
     };
     const voivodeships: {
@@ -51,7 +66,19 @@ export const GraphModal: React.FC<GraphModalProps> = ({isOpen, onRequestClose}) 
         {voivodeship: "ZACHODNIOPOMORSKIE", label: "Zachodniopomorskie"},
         {voivodeship: "ŁÓDZKIE", label: "Łódzkie"}]
 
-    const testData = graphData?.filter(ob=>ob.voivodeship==selectedOption.voivodeship).filter(filtered=>filtered.parameterFormula==="CO");
+    const parameters: {
+        formula: string;
+        label: string;
+    }[] = [
+        {formula:"NO2",label:"NO2"},
+        {formula:"O3",label:"O3"},
+        {formula:"PM10",label:"PM10"},
+        {formula:"PM2.5",label:"PM2.5"},
+        {formula:"C6H6",label:"C6H6"},
+        {formula:"CO",label:"CO"},
+        {formula:"SO2",label:"SO2"}
+    ]
+    const testData = graphData?.filter(ob=>ob.voivodeship==selectedOption.voivodeship).filter(filtered=>filtered.parameterFormula===selectedParameter.formula);
     return (
 
             <ReactModal isOpen={isOpen} onRequestClose={onRequestClose} style={{
@@ -105,6 +132,17 @@ export const GraphModal: React.FC<GraphModalProps> = ({isOpen, onRequestClose}) 
                             />
                         </TextAndSelect>
                         <TextAndSelect>
+                            <BoldText>
+                                Parametr:
+                            </BoldText>
+                            <Select
+                                value={selectedParameter}
+                                onChange={handleSelectParameterChange}
+                                options={parameters}
+                                getOptionValue={(option) => option.formula}
+                                menuShouldScrollIntoView={true}
+                                menuPosition={"fixed"}
+                            />
                         </TextAndSelect>
                     </SelectContainer>
                 </div>
