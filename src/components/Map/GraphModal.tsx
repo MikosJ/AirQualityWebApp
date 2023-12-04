@@ -97,7 +97,7 @@ export const GraphModal: React.FC<GraphModalProps> = ({isOpen, onRequestClose}) 
                 content: {
                     display: 'flex',
                     background: 'white',
-                    width: '80vw',
+                    width: '85vw',
                     height: '70vh',
                     maxWidth: 'calc(100vw - 2rem)',
                     maxHeight: 'calc(100vh - 2rem)',
@@ -109,7 +109,7 @@ export const GraphModal: React.FC<GraphModalProps> = ({isOpen, onRequestClose}) 
                     alignItems: 'center',
                 }}} ariaHideApp={false}>
                 <div>
-                    <LineChart width={900} height={600} data={testData}>
+                    <LineChart width={800} height={600} data={testData}>
                         <XAxis dataKey={"date"}/>
                         <YAxis dataKey={"averageValue"}/>
                         <CartesianGrid/>
