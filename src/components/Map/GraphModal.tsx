@@ -109,7 +109,7 @@ export const GraphModal: React.FC<GraphModalProps> = ({isOpen, onRequestClose}) 
                     alignItems: 'center',
                 }}} ariaHideApp={false}>
                 <div>
-                    <LineChart width={800} height={600} data={testData}>
+                    <LineChart width={900} height={600} data={testData}>
                         <XAxis dataKey={"date"}/>
                         <YAxis dataKey={"averageValue"}/>
                         <CartesianGrid/>

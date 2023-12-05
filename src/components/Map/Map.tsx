@@ -14,11 +14,13 @@ import MarkerClusterGroup from "react-leaflet-cluster";
 import {useAQIndex} from "../../api/useAQIndex.ts";
 import {joinIndexWithStation} from "../../util/JoinIndexWithData.ts";
 import {SideBar} from "./SideBar.tsx";
-import React from "react";
+import React, {useState} from "react";
+import {StationGraphModal} from "./StationGraphModal.tsx";
+import {Button} from "./SideBarStyled.ts";
 
 interface MapProps {
     openModal: () => void;
-    openAvgModal:() => void;
+    openAvgModal: () => void;
 }
 
 export const Map: React.FC<MapProps> = ({openModal, openAvgModal}) => {
@@ -36,7 +38,14 @@ export const Map: React.FC<MapProps> = ({openModal, openAvgModal}) => {
         5: '#4B0082',
         6: 'rgba(86,86,86,0.48)'
     };
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const openStationModal = () => {
+        setIsModalOpen(true);
+    };
 
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
     return (
         <StyledMap>
             <MapContainer
@@ -63,28 +72,30 @@ export const Map: React.FC<MapProps> = ({openModal, openAvgModal}) => {
                                     weight={1}
                                 >
                                     <StyledPop>
-                                    <LocalizationText>
-                                        Miasto: {city.city} <br/> Stacja: {station.name}
-                                    </LocalizationText>
+                                        <LocalizationText>
+                                            Miasto: {city.city} <br/> Stacja: {station.name}
+                                        </LocalizationText>
                                         <ParameterTextContainer>
+                                            {station.parameter.map(parameter => (
+                                                <ParameterText>
+                                                    {parameter.formula + ": " + parameter.values[0].value + " µg/m3"}
+                                                </ParameterText>
 
-
-                                        {station.parameter.map(parameter => (
-                                            <ParameterText>
-                                                {parameter.formula + ": " + parameter.values[0].value + " µg/m3"}
-                                            </ParameterText>
-
-                                        ))}
+                                            ))}
                                         </ParameterTextContainer>
                                         <TextContainer>
                                             <BlackText>
                                                 Indeks jakości powietrza:
                                             </BlackText>
-
                                             <ColoredText
                                                 color={airQualityColorScale[station.index?.indexLevel.id !== undefined ? station.index?.indexLevel.id : 6]}>
                                                 {station.index?.indexLevel.name !== undefined ? station.index?.indexLevel.name.toLowerCase() : "brak danych"}
                                             </ColoredText>
+                                        </TextContainer>
+                                        <TextContainer>
+                                            <StationGraphModal isOpen={isModalOpen} onRequestClose={closeModal}
+                                                               stationId={station.id}/>
+                                            <Button onClick={()=>setIsModalOpen(true)}>Wykres</Button>
                                         </TextContainer>
                                     </StyledPop>
                                 </CircleMarker>
@@ -93,7 +104,7 @@ export const Map: React.FC<MapProps> = ({openModal, openAvgModal}) => {
                     )}
                 </MarkerClusterGroup>
             </MapContainer>
-            <SideBar openModal={openModal} openAvgModal = {openAvgModal}/>
+            <SideBar openModal={openModal} openAvgModal={openAvgModal}/>
         </StyledMap>
     )
 }

@@ -83,3 +83,16 @@ type VoivodeshipAverageData = {
     parameterName: string;
     voivodeship: string;
 }
+
+type StationGraphData = {
+    value: number;
+    date: string;
+    parameterFormula: string;
+    parameterName: string;
+    stationName: string;
+    city: string;
+    voivodeship: string;
+    longitude: number;
+    latitude: number;
+    stationId: number;
+}
