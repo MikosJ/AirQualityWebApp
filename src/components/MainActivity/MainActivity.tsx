@@ -1,5 +1,5 @@
 import {Map} from "../Map/Map.tsx";
-import {GraphModal} from "../Map/GraphModal.tsx";
+import {VoivodeshipGraphModal} from "../Map/VoivodeshipGraphModal.tsx";
 import {useState} from "react";
 import {AverageValuesModal} from "../Map/AverageValuesModal.tsx";
 
@@ -26,7 +26,7 @@ export const MainActivity = () => {
     return (
         <>
             <Map openModal={openModal} openAvgModal={openAvgModal} />
-            <GraphModal isOpen={isModalOpen} onRequestClose={closeModal} />
+            <VoivodeshipGraphModal isOpen={isModalOpen} onRequestClose={closeModal} />
             <AverageValuesModal isOpen={isAvgModalOpen} onRequestClose={closeAvgModal}></AverageValuesModal>
         </>
     );

@@ -21,7 +21,7 @@ interface ParameterOption {
     label: string;
 }
 
-export const GraphModal: React.FC<GraphModalProps> = ({isOpen, onRequestClose}) => {
+export const VoivodeshipGraphModal: React.FC<GraphModalProps> = ({isOpen, onRequestClose}) => {
     const {data:graphData} = useQuery({queryKey:['graphData'],queryFn:useVoivodeshipValuesByHour})
     const [selectedOption, setSelectedOption] = useState<VoivodeshipOption>({
         voivodeship: "MAŁOPOLSKIE",
@@ -80,7 +80,6 @@ export const GraphModal: React.FC<GraphModalProps> = ({isOpen, onRequestClose}) 
     ]
     const testData = graphData?.filter(ob=>ob.voivodeship==selectedOption.voivodeship).filter(filtered=>filtered.parameterFormula===selectedParameter.formula);
     return (
-
             <ReactModal isOpen={isOpen} onRequestClose={onRequestClose} style={{
                 overlay: {
                     position: 'fixed',
